@@ -50,7 +50,7 @@
         <Menu fx:id="menuFile" mnemonicParsing="false" text="Файл">
           <items>
             <MenuItem fx:id="menuOpenFile" mnemonicParsing="false" text="Отрыть документ" />
-            <MenuItem fx:id="menuCreateFile" mnemonicParsing="false" text="Создать дкумент" />
+            <MenuItem fx:id="menuCreateFile" mnemonicParsing="false" text="Создать документ" />
                   <MenuItem fx:id="menuDeleteFile" mnemonicParsing="false" text="Удалить документ" />
           </items>
         </Menu>
