@@ -76,7 +76,7 @@
                               <Font name="Arial Bold" size="14.0" />
                           </font>
                           <cursor>
-                              <Cursor fx:constant="TEXT" />
+                              <Cursor fx:constant="HAND" />
                           </cursor>
                      <VBox.margin>
                         <Insets bottom="16.0" left="16.0" />
@@ -87,7 +87,7 @@
                               <Font name="Arial Bold" size="14.0" />
                           </font>
                           <cursor>
-                              <Cursor fx:constant="TEXT" />
+                              <Cursor fx:constant="HAND" />
                           </cursor>
                      <VBox.margin>
                         <Insets left="16.0" right="16.0" />
@@ -99,7 +99,7 @@
                               <Font name="System Bold" size="11.0" />
                           </font>
                           <cursor>
-                              <Cursor fx:constant="TEXT" />
+                              <Cursor fx:constant="HAND" />
                           </cursor>
                      <VBox.margin>
                         <Insets bottom="32.0" left="16.0" />
