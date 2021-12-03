@@ -8,13 +8,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class DbManagerApplication extends Application {
+    private DataBaseManagerController appController;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(DbManagerApplication.class.getResource("main.fxml"));
+        appController = fxmlLoader.getController();
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);
         stage.setTitle("DataBase Manager");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() {
+        if (appController != null) {
+            appController.dispose();
+        }
     }
 
     public static void main(String[] args) {

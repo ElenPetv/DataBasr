@@ -32,26 +32,19 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elen.dbmanager.DataBaseManagerController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
                 <Menu fx:id="menuFile" mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem fx:id="menuOpenFile" mnemonicParsing="false" text="Отрыть документ" />
+                        <MenuItem fx:id="menuOpenFile" mnemonicParsing="false" text="Отрыть документ"
+                                  onAction="#onOpenDocument"/>
                         <MenuItem fx:id="menuCreateFile" mnemonicParsing="false" text="Создать документ" onAction="#onCreateNewDocument" />
                         <MenuItem fx:id="menuDeleteFile" mnemonicParsing="false" text="Удалить документ" />
                     </items>
