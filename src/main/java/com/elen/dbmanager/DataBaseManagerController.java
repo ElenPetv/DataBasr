@@ -1,11 +1,12 @@
 package com.elen.dbmanager;
 
+import com.elen.dbmanager.manager.DatabaseManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.IOException;
 
 public class DataBaseManagerController {
 
@@ -36,4 +37,20 @@ public class DataBaseManagerController {
     @FXML
     private TextField searchField;
 
+    private DatabaseManager databaseManager;
+
+    @FXML
+    void onCreateNewDocument() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("CSV Document", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        try {
+            if (file.createNewFile()) {
+                databaseManager = new DatabaseManager(file);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
