@@ -46,7 +46,7 @@
                         <MenuItem mnemonicParsing="false" text="Отрыть документ"
                                   onAction="#onOpenDocument"/>
                         <MenuItem mnemonicParsing="false" text="Создать документ" onAction="#onCreateNewDocument"/>
-                        <MenuItem mnemonicParsing="false" text="Удалить документ"/>
+                        <MenuItem mnemonicParsing="false" text="Удалить документ" onAction="#onDeleteDocument"/>
                     </items>
                 </Menu>
             </menus>

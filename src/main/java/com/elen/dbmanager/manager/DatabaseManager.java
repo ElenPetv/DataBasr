@@ -21,12 +21,15 @@ public class DatabaseManager {
     }
 
     private final BehaviorSubject<List<List<String>>> dataSubject = BehaviorSubject.createDefault(List.of());
+    private File file;
 
     public void loadFromFile(File file) {
-        readData(file);
+        this.file = file;
+        readData();
     }
 
-    private void readData(File file) {
+    private void readData() {
+        if (file == null) return;
         try {
             Scanner sc = new Scanner(file).useDelimiter("\n");
             List<List<String>> data = new ArrayList<>();
@@ -60,4 +63,14 @@ public class DatabaseManager {
         return dataSubject;
     }
 
+    public void deleteDocument() {
+        if (file != null) {
+            file.delete();
+            dataSubject.onNext(List.of());
+        }
+    }
+
+    public String getDocumentPath() {
+        return file == null ? "None" : file.getAbsolutePath();
+    }
 }

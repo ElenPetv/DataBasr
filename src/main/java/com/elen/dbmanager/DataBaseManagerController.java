@@ -5,10 +5,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.stage.FileChooser;
 
@@ -86,7 +83,7 @@ public class DataBaseManagerController {
     }
 
     @FXML
-    void onCreateNewDocument() {
+    private void onCreateNewDocument() {
         File file = createFileChooser().showSaveDialog(null);
         try {
             if (file.createNewFile()) {
@@ -98,9 +95,23 @@ public class DataBaseManagerController {
     }
 
     @FXML
-    void onOpenDocument() {
+    private void onOpenDocument() {
         File file = createFileChooser().showOpenDialog(null);
         databaseManager.loadFromFile(file);
+    }
+
+    @FXML
+    private void onDeleteDocument() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Подтверждение");
+        alert.setHeaderText("Удалить документ?");
+        alert.setContentText("Документ " + databaseManager.getDocumentPath() + " будет удален");
+
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                databaseManager.deleteDocument();
+            }
+        });
     }
 
     private FileChooser createFileChooser() {
