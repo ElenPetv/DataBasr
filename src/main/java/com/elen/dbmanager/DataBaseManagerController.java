@@ -7,10 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +59,25 @@ public class DataBaseManagerController {
         if (lists.isEmpty()) {
             return;
         }
-        var controlsColumn = new TableColumn<Map, String>("");
+        var controlsColumn = new TableColumn<Map, Integer>("");
         controlsColumn.setCellValueFactory(new MapValueFactory<>("controls"));
+        controlsColumn.setCellFactory(param -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    Button buttonEdit = new Button("Редакт.");
+                    buttonEdit.setStyle("-fx-background-color: #21c9f3");
+                    buttonEdit.setOnAction(event -> showEditForm(lists, item));
+                    Button buttonDelete = new Button("Удалить");
+                    buttonDelete.setStyle("-fx-background-color: #ffa1a1");
+                    buttonDelete.setOnAction(event -> deleteRow(item, lists));
+                    setGraphic(new HBox(8, buttonEdit, buttonDelete));
+                }
+            }
+        });
         controlsColumn.setSortable(false);
         columns.add(controlsColumn);
 
@@ -72,8 +91,8 @@ public class DataBaseManagerController {
                     columns.add(column);
                 }
             } else {
-                Map<Object, String> map = new HashMap<>();
-                map.put("controls", "");
+                Map<Object, Object> map = new HashMap<>();
+                map.put("controls", i);
                 for (int j = 0; j < row.size(); j++) {
                     map.put(j, row.get(j));
                 }
@@ -112,6 +131,29 @@ public class DataBaseManagerController {
                 databaseManager.deleteDocument();
             }
         });
+    }
+
+    private void deleteRow(int item, List<List<String>> lists) {
+        List<List<String>> changedLists = new ArrayList<>(lists);
+        changedLists.remove(item);
+        saveChanges(changedLists);
+    }
+
+    private void showEditForm(List<List<String>> lists, int index) {
+        List<List<String>> changedLists = new ArrayList<>(lists);
+        ////
+        saveChanges(lists);
+    }
+
+    private void saveChanges(List<List<String>> lists) {
+        try {
+            databaseManager.saveData(lists);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Не удалось сохранить документ " + databaseManager.getDocumentPath());
+            alert.setContentText(e.getLocalizedMessage());
+        }
     }
 
     private FileChooser createFileChooser() {

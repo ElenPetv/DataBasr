@@ -5,6 +5,8 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,5 +74,16 @@ public class DatabaseManager {
 
     public String getDocumentPath() {
         return file == null ? "None" : file.getAbsolutePath();
+    }
+
+    public void saveData(List<List<String>> data) throws IOException {
+        String stringData = data.stream()
+                .map(rows -> rows.stream().reduce((s1, s2) -> s1 + "," + s2).orElse(""))
+                .reduce((s, row) -> s + "\n" + row)
+                .orElse("");
+        FileWriter writer = new FileWriter(file, false);
+        writer.write(stringData);
+        writer.close();
+        dataSubject.onNext(data);
     }
 }
