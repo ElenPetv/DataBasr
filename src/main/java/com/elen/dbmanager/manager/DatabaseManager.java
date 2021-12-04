@@ -5,6 +5,8 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,12 +23,15 @@ public class DatabaseManager {
     }
 
     private final BehaviorSubject<List<List<String>>> dataSubject = BehaviorSubject.createDefault(List.of());
+    private File file;
 
     public void loadFromFile(File file) {
-        readData(file);
+        this.file = file;
+        readData();
     }
 
-    private void readData(File file) {
+    private void readData() {
+        if (file == null) return;
         try {
             Scanner sc = new Scanner(file).useDelimiter("\n");
             List<List<String>> data = new ArrayList<>();
@@ -60,4 +65,25 @@ public class DatabaseManager {
         return dataSubject;
     }
 
+    public void deleteDocument() {
+        if (file != null) {
+            file.delete();
+            dataSubject.onNext(List.of());
+        }
+    }
+
+    public String getDocumentPath() {
+        return file == null ? "None" : file.getAbsolutePath();
+    }
+
+    public void saveData(List<List<String>> data) throws IOException {
+        String stringData = data.stream()
+                .map(rows -> rows.stream().reduce((s1, s2) -> s1 + "," + s2).orElse(""))
+                .reduce((s, row) -> s + "\n" + row)
+                .orElse("");
+        FileWriter writer = new FileWriter(file, false);
+        writer.write(stringData);
+        writer.close();
+        dataSubject.onNext(data);
+    }
 }
