@@ -41,19 +41,19 @@
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
-                <Menu fx:id="menuFile" mnemonicParsing="false" text="Файл">
+                <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem fx:id="menuOpenFile" mnemonicParsing="false" text="Отрыть документ"
+                        <MenuItem mnemonicParsing="false" text="Отрыть документ"
                                   onAction="#onOpenDocument"/>
-                        <MenuItem fx:id="menuCreateFile" mnemonicParsing="false" text="Создать документ" onAction="#onCreateNewDocument" />
-                        <MenuItem fx:id="menuDeleteFile" mnemonicParsing="false" text="Удалить документ" />
+                        <MenuItem mnemonicParsing="false" text="Создать документ" onAction="#onCreateNewDocument"/>
+                        <MenuItem mnemonicParsing="false" text="Удалить документ"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
       <HBox style="-fx-background-color: #caedea;" VBox.vgrow="ALWAYS">
          <children>
-                <TableView fx:id="mainTable" HBox.hgrow="ALWAYS" />
+             <TableView fx:id="mainTable" HBox.hgrow="ALWAYS"/>
             <VBox>
                <children>
                       <TextField fx:id="searchField" prefHeight="24.0" prefWidth="265.0" promptText="Поиск по документу" style="-fx-background-radius: 12;">
