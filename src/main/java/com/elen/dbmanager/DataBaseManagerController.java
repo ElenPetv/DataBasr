@@ -141,8 +141,10 @@ public class DataBaseManagerController {
 
     private void showEditForm(List<List<String>> lists, int index) {
         List<List<String>> changedLists = new ArrayList<>(lists);
-        ////
-        saveChanges(lists);
+        EditRowForm.show(changedLists.get(index), changedLists.get(0), row -> {
+            changedLists.set(index, row);
+            saveChanges(changedLists);
+        });
     }
 
     private void saveChanges(List<List<String>> lists) {
@@ -153,6 +155,7 @@ public class DataBaseManagerController {
             alert.setTitle("Ошибка");
             alert.setHeaderText("Не удалось сохранить документ " + databaseManager.getDocumentPath());
             alert.setContentText(e.getLocalizedMessage());
+            alert.showAndWait();
         }
     }
 
