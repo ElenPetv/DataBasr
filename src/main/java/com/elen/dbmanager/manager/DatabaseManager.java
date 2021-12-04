@@ -33,7 +33,7 @@ public class DatabaseManager {
     private void readData() {
         if (file == null) return;
         try {
-            Scanner sc = new Scanner(file).useDelimiter("\n");
+            Scanner sc = new Scanner(file).useDelimiter("(\r)?\n");
             List<List<String>> data = new ArrayList<>();
             int targetRowSize = -1;
             while (sc.hasNext()) {
