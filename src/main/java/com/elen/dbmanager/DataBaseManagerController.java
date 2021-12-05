@@ -8,25 +8,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataBaseManagerController {
 
     @FXML
+    private VBox emptyStatePane;
+
+    @FXML
     private Button aboutProgram;
-
-    @FXML
-    private Button addColumn;
-
-    @FXML
-    private Button addData;
 
     @FXML
     private TableView<Map> mainTable;
@@ -36,6 +31,7 @@ public class DataBaseManagerController {
 
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private Disposable dataSubscription;
+    private Disposable emptyStateSubscription;
     public final ObservableList<Map> tableItems = FXCollections.observableArrayList();
 
     @FXML
@@ -44,11 +40,17 @@ public class DataBaseManagerController {
         dataSubscription = databaseManager.getData()
                 .distinctUntilChanged()
                 .subscribe(this::buildTable);
+        emptyStateSubscription = databaseManager.dbFile()
+                .map(Optional::isEmpty)
+                .subscribe(emptyStatePane::setVisible);
     }
 
     public void dispose() {
         if (dataSubscription != null) {
             dataSubscription.dispose();
+        }
+        if (emptyStateSubscription != null) {
+            emptyStateSubscription.dispose();
         }
     }
 
