@@ -40,7 +40,7 @@
 <?import javafx.scene.text.*?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
       prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.elen.dbmanager.DataBaseManagerController">
+      fx:controller="com.elen.dbmanager.DataBaseManagerController" stylesheets="@stylesheet.css">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
@@ -55,7 +55,7 @@
         </MenuBar>
         <StackPane VBox.vgrow="ALWAYS">
             <children>
-                <HBox style="-fx-background-color: #caedea;">
+                <HBox styleClass="bg-color">
                     <children>
                         <TableView fx:id="mainTable" HBox.hgrow="ALWAYS"/>
                         <VBox>
@@ -112,7 +112,7 @@
                     </children>
                 </HBox>
                 <VBox fx:id="emptyStatePane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
-                      style="-fx-background-color: #caedea;">
+                      styleClass="bg-color">
                     <children>
                         <Button mnemonicParsing="false" onAction="#onCreateNewDocument" prefHeight="26.0"
                                 prefWidth="156.0" style="-fx-background-radius: 12;" text="Создать документ">

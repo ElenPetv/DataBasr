@@ -32,7 +32,7 @@ public class DataBaseManagerController {
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private Disposable dataSubscription;
     private Disposable emptyStateSubscription;
-    public final ObservableList<Map> tableItems = FXCollections.observableArrayList();
+    private final ObservableList<Map> tableItems = FXCollections.observableArrayList();
 
     @FXML
     void initialize() {

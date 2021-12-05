@@ -55,6 +55,9 @@ public class DatabaseManager {
 
                 data.add(new ArrayList<>(List.of(rowElements)));
             }
+            if (data.isEmpty()) {
+                data.add(new ArrayList<>());
+            }
             dataSubject.onNext(data);
         } catch (FileNotFoundException e) {
             out.println("Файл " + file.getAbsolutePath() + " не найден!");
