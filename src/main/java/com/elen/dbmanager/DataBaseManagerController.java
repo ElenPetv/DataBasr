@@ -8,25 +8,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataBaseManagerController {
 
     @FXML
+    private VBox emptyStatePane;
+
+    @FXML
     private Button aboutProgram;
-
-    @FXML
-    private Button addColumn;
-
-    @FXML
-    private Button addData;
 
     @FXML
     private TableView<Map> mainTable;
@@ -36,19 +31,26 @@ public class DataBaseManagerController {
 
     private final DatabaseManager databaseManager = DatabaseManager.getInstance();
     private Disposable dataSubscription;
+    private Disposable emptyStateSubscription;
     public final ObservableList<Map> tableItems = FXCollections.observableArrayList();
 
     @FXML
     void initialize() {
         mainTable.setItems(tableItems);
-        dataSubscription = databaseManager.getData()
+        dataSubscription = databaseManager.getDataStream()
                 .distinctUntilChanged()
                 .subscribe(this::buildTable);
+        emptyStateSubscription = databaseManager.dbFile()
+                .map(Optional::isEmpty)
+                .subscribe(emptyStatePane::setVisible);
     }
 
     public void dispose() {
         if (dataSubscription != null) {
             dataSubscription.dispose();
+        }
+        if (emptyStateSubscription != null) {
+            emptyStateSubscription.dispose();
         }
     }
 
@@ -133,18 +135,55 @@ public class DataBaseManagerController {
         });
     }
 
+    @FXML
+    private void onAddColumn() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Название столбца");
+        dialog.setHeaderText("Введите название столбца");
+        dialog.showAndWait()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .ifPresent(name -> {
+                    List<List<String>> changedLists = new ArrayList<>(databaseManager.getData());
+                    for (int i = 0; i < changedLists.size(); i++) {
+                        List<String> row = new ArrayList<>(changedLists.get(i));
+                        row.add(i == 0 ? name : " ");
+                        changedLists.set(i, row);
+                    }
+                    saveChanges(changedLists);
+                });
+    }
+
+    @FXML
+    private void onAddRow() {
+        showEditForm(databaseManager.getData(), -1);
+    }
+
     private void deleteRow(int item, List<List<String>> lists) {
         List<List<String>> changedLists = new ArrayList<>(lists);
         changedLists.remove(item);
         saveChanges(changedLists);
     }
 
+    /**
+     * Show form for edit or create new row in table
+     *
+     * @param lists current table data
+     * @param index index for changing row or -1 for creating new row
+     */
     private void showEditForm(List<List<String>> lists, int index) {
         List<List<String>> changedLists = new ArrayList<>(lists);
-        EditRowForm.show(changedLists.get(index), changedLists.get(0), row -> {
-            changedLists.set(index, row);
-            saveChanges(changedLists);
-        });
+        EditRowForm.show(
+                index != -1 ? changedLists.get(index) : null,
+                changedLists.get(0),
+                row -> {
+                    if (index != -1) {
+                        changedLists.set(index, row);
+                    } else {
+                        changedLists.add(row);
+                    }
+                    saveChanges(changedLists);
+                });
     }
 
     private void saveChanges(List<List<String>> lists) {

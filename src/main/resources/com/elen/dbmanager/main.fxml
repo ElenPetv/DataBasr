@@ -32,75 +32,112 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Cursor?>
+<?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elen.dbmanager.DataBaseManagerController">
+<?import javafx.scene.text.*?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.elen.dbmanager.DataBaseManagerController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Отрыть документ"
-                                  onAction="#onOpenDocument"/>
-                        <MenuItem mnemonicParsing="false" text="Создать документ" onAction="#onCreateNewDocument"/>
-                        <MenuItem mnemonicParsing="false" text="Удалить документ" onAction="#onDeleteDocument"/>
+                        <MenuItem mnemonicParsing="false" onAction="#onOpenDocument" text="Отрыть документ"/>
+                        <MenuItem mnemonicParsing="false" onAction="#onCreateNewDocument" text="Создать документ"/>
+                        <MenuItem mnemonicParsing="false" onAction="#onDeleteDocument" text="Удалить документ"/>
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-      <HBox style="-fx-background-color: #caedea;" VBox.vgrow="ALWAYS">
-         <children>
-             <TableView fx:id="mainTable" HBox.hgrow="ALWAYS"/>
-            <VBox>
-               <children>
-                      <TextField fx:id="searchField" prefHeight="24.0" prefWidth="265.0" promptText="Поиск по документу" style="-fx-background-radius: 12;">
-                     <padding>
-                        <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
-                     </VBox.margin>
-                  </TextField>
-                      <Button fx:id="addData" mnemonicParsing="false" prefHeight="26.0" prefWidth="156.0" style="-fx-background-radius: 12;" text="Добавить запись">
-                          <font>
-                              <Font name="Arial Bold" size="14.0" />
-                          </font>
-                          <cursor>
-                              <Cursor fx:constant="HAND" />
-                          </cursor>
-                     <VBox.margin>
-                        <Insets bottom="16.0" left="16.0" />
-                     </VBox.margin>
-                      </Button>
-                      <Button fx:id="addColumn" mnemonicParsing="false" prefHeight="24.0" prefWidth="156.0" style="-fx-background-radius: 12;" text="Добавить столбец">
-                          <font>
-                              <Font name="Arial Bold" size="14.0" />
-                          </font>
-                          <cursor>
-                              <Cursor fx:constant="HAND" />
-                          </cursor>
-                     <VBox.margin>
-                        <Insets left="16.0" right="16.0" />
-                     </VBox.margin>
-                      </Button>
-                  <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                      <Button fx:id="aboutProgram" mnemonicParsing="false" style="-fx-background-radius: 12;" text="О программе">
-                          <font>
-                              <Font name="System Bold" size="11.0" />
-                          </font>
-                          <cursor>
-                              <Cursor fx:constant="HAND" />
-                          </cursor>
-                     <VBox.margin>
-                        <Insets bottom="32.0" left="16.0" />
-                     </VBox.margin>
-                      </Button>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
+        <StackPane VBox.vgrow="ALWAYS">
+            <children>
+                <HBox style="-fx-background-color: #caedea;">
+                    <children>
+                        <TableView fx:id="mainTable" HBox.hgrow="ALWAYS"/>
+                        <VBox>
+                            <children>
+                                <TextField fx:id="searchField" prefHeight="24.0" prefWidth="265.0"
+                                           promptText="Поиск по документу" style="-fx-background-radius: 12;">
+                                    <padding>
+                                        <Insets bottom="8.0" left="16.0" right="16.0" top="8.0"/>
+                                    </padding>
+                                    <VBox.margin>
+                                        <Insets bottom="8.0" left="16.0" right="16.0" top="8.0"/>
+                                    </VBox.margin>
+                                </TextField>
+                                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="156.0"
+                                        style="-fx-background-radius: 12;" text="Добавить запись" onAction="#onAddRow">
+                                    <font>
+                                        <Font name="Arial Bold" size="14.0"/>
+                                    </font>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                    <VBox.margin>
+                                        <Insets bottom="16.0" left="16.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="156.0"
+                                        style="-fx-background-radius: 12;" text="Добавить столбец"
+                                        onAction="#onAddColumn">
+                                    <font>
+                                        <Font name="Arial Bold" size="14.0"/>
+                                    </font>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                    <VBox.margin>
+                                        <Insets left="16.0" right="16.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Pane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS"/>
+                                <Button fx:id="aboutProgram" mnemonicParsing="false" style="-fx-background-radius: 12;"
+                                        text="О программе">
+                                    <font>
+                                        <Font name="System Bold" size="11.0"/>
+                                    </font>
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                    <VBox.margin>
+                                        <Insets bottom="32.0" left="16.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <VBox fx:id="emptyStatePane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                      style="-fx-background-color: #caedea;">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#onCreateNewDocument" prefHeight="26.0"
+                                prefWidth="156.0" style="-fx-background-radius: 12;" text="Создать документ">
+                            <font>
+                                <Font name="Arial Bold" size="14.0"/>
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onOpenDocument" prefHeight="26.0" prefWidth="156.0"
+                                style="-fx-background-radius: 12;" text="Открыть документ">
+                            <font>
+                                <Font name="Arial Bold" size="14.0"/>
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
+                            <VBox.margin>
+                                <Insets top="24.0"/>
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
     </children>
 </VBox>

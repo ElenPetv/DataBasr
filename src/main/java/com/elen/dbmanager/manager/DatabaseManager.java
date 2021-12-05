@@ -7,10 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.out;
 
@@ -23,14 +20,19 @@ public class DatabaseManager {
     }
 
     private final BehaviorSubject<List<List<String>>> dataSubject = BehaviorSubject.createDefault(List.of());
-    private File file;
+    private final BehaviorSubject<Optional<File>> fileSubject = BehaviorSubject.createDefault(Optional.empty());
 
     public void loadFromFile(File file) {
-        this.file = file;
+        fileSubject.onNext(Optional.of(file));
         readData();
     }
 
+    public Observable<Optional<File>> dbFile() {
+        return fileSubject;
+    }
+
     private void readData() {
+        File file = fileSubject.getValue().orElse(null);
         if (file == null) return;
         try {
             Scanner sc = new Scanner(file).useDelimiter("(\r)?\n");
@@ -51,7 +53,7 @@ public class DatabaseManager {
                     targetRowSize = rowSize;
                 }
 
-                data.add(List.of(rowElements));
+                data.add(new ArrayList<>(List.of(rowElements)));
             }
             dataSubject.onNext(data);
         } catch (FileNotFoundException e) {
@@ -61,22 +63,26 @@ public class DatabaseManager {
 
     }
 
-    public Observable<List<List<String>>> getData() {
+    public Observable<List<List<String>>> getDataStream() {
         return dataSubject;
     }
 
     public void deleteDocument() {
+        File file = fileSubject.getValue().orElse(null);
         if (file != null) {
             file.delete();
             dataSubject.onNext(List.of());
+            fileSubject.onNext(Optional.empty());
         }
     }
 
     public String getDocumentPath() {
+        File file = fileSubject.getValue().orElse(null);
         return file == null ? "None" : file.getAbsolutePath();
     }
 
     public void saveData(List<List<String>> data) throws IOException {
+        File file = fileSubject.getValue().orElse(null);
         String stringData = data.stream()
                 .map(rows -> rows.stream().reduce((s1, s2) -> s1 + "," + s2).orElse(""))
                 .reduce((s, row) -> s + "\n" + row)
@@ -85,5 +91,9 @@ public class DatabaseManager {
         writer.write(stringData);
         writer.close();
         dataSubject.onNext(data);
+    }
+
+    public List<List<String>> getData() {
+        return dataSubject.getValue();
     }
 }
