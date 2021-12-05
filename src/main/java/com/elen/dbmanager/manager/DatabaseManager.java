@@ -53,7 +53,7 @@ public class DatabaseManager {
                     targetRowSize = rowSize;
                 }
 
-                data.add(List.of(rowElements));
+                data.add(new ArrayList<>(List.of(rowElements)));
             }
             dataSubject.onNext(data);
         } catch (FileNotFoundException e) {

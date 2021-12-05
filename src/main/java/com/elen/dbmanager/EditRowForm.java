@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,13 +40,23 @@ public class EditRowForm extends VBox {
 
         Button buttonSave = new Button("Сохранить");
         buttonSave.setOnAction(event -> {
-            onSaveCallback.onSave(valueProperties.stream()
-                    .map(ObservableObjectValue::get)
-                    .collect(Collectors.toList()));
 
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
+            List<String> newValues = valueProperties.stream()
+                    .map(ObservableObjectValue::get)
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (newValues.size() < columns.size()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Ошибка");
+                alert.setHeaderText("Все поля должны быть заполнены!");
+                alert.showAndWait();
+            } else {
+                onSaveCallback.onSave(newValues);
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
+            }
         });
         children.add(buttonSave);
     }

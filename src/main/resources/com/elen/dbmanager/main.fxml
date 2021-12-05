@@ -38,7 +38,9 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elen.dbmanager.DataBaseManagerController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.elen.dbmanager.DataBaseManagerController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
@@ -68,7 +70,7 @@
                                     </VBox.margin>
                                 </TextField>
                                 <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="156.0"
-                                        style="-fx-background-radius: 12;" text="Добавить запись" onAction="#addRow">
+                                        style="-fx-background-radius: 12;" text="Добавить запись" onAction="#onAddRow">
                                     <font>
                                         <Font name="Arial Bold" size="14.0"/>
                                     </font>
@@ -80,7 +82,8 @@
                                     </VBox.margin>
                                 </Button>
                                 <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="156.0"
-                                        style="-fx-background-radius: 12;" text="Добавить столбец">
+                                        style="-fx-background-radius: 12;" text="Добавить столбец"
+                                        onAction="#onAddColumn">
                                     <font>
                                         <Font name="Arial Bold" size="14.0"/>
                                     </font>

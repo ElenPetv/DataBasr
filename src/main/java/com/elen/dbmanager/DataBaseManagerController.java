@@ -136,7 +136,26 @@ public class DataBaseManagerController {
     }
 
     @FXML
-    private void addRow() {
+    private void onAddColumn() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Название столбца");
+        dialog.setHeaderText("Введите название столбца");
+        dialog.showAndWait()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .ifPresent(name -> {
+                    List<List<String>> changedLists = new ArrayList<>(databaseManager.getData());
+                    for (int i = 0; i < changedLists.size(); i++) {
+                        List<String> row = new ArrayList<>(changedLists.get(i));
+                        row.add(i == 0 ? name : " ");
+                        changedLists.set(i, row);
+                    }
+                    saveChanges(changedLists);
+                });
+    }
+
+    @FXML
+    private void onAddRow() {
         showEditForm(databaseManager.getData(), -1);
     }
 
