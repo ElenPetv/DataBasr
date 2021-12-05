@@ -68,7 +68,7 @@
                                     </VBox.margin>
                                 </TextField>
                                 <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="156.0"
-                                        style="-fx-background-radius: 12;" text="Добавить запись">
+                                        style="-fx-background-radius: 12;" text="Добавить запись" onAction="#addRow">
                                     <font>
                                         <Font name="Arial Bold" size="14.0"/>
                                     </font>

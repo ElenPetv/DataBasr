@@ -63,7 +63,7 @@ public class DatabaseManager {
 
     }
 
-    public Observable<List<List<String>>> getData() {
+    public Observable<List<List<String>>> getDataStream() {
         return dataSubject;
     }
 
@@ -91,5 +91,9 @@ public class DatabaseManager {
         writer.write(stringData);
         writer.close();
         dataSubject.onNext(data);
+    }
+
+    public List<List<String>> getData() {
+        return dataSubject.getValue();
     }
 }

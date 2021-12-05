@@ -21,13 +21,15 @@ public class DbManagerApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        titleChangesSubscription = DatabaseManager.getInstance().dbFile().subscribe(optionalFile -> {
-            if (optionalFile.isPresent()) {
-                stage.setTitle("DataBase Manager - " + optionalFile.get());
-            } else {
-                stage.setTitle("DataBase Manager");
-            }
-        });
+        titleChangesSubscription = DatabaseManager.getInstance()
+                .dbFile()
+                .subscribe(optionalFile -> {
+                    if (optionalFile.isPresent()) {
+                        stage.setTitle("DataBase Manager - " + optionalFile.get());
+                    } else {
+                        stage.setTitle("DataBase Manager");
+                    }
+                });
     }
 
     @Override

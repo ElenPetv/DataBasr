@@ -37,7 +37,7 @@ public class DataBaseManagerController {
     @FXML
     void initialize() {
         mainTable.setItems(tableItems);
-        dataSubscription = databaseManager.getData()
+        dataSubscription = databaseManager.getDataStream()
                 .distinctUntilChanged()
                 .subscribe(this::buildTable);
         emptyStateSubscription = databaseManager.dbFile()
@@ -135,18 +135,36 @@ public class DataBaseManagerController {
         });
     }
 
+    @FXML
+    private void addRow() {
+        showEditForm(databaseManager.getData(), -1);
+    }
+
     private void deleteRow(int item, List<List<String>> lists) {
         List<List<String>> changedLists = new ArrayList<>(lists);
         changedLists.remove(item);
         saveChanges(changedLists);
     }
 
+    /**
+     * Show form for edit or create new row in table
+     *
+     * @param lists current table data
+     * @param index index for changing row or -1 for creating new row
+     */
     private void showEditForm(List<List<String>> lists, int index) {
         List<List<String>> changedLists = new ArrayList<>(lists);
-        EditRowForm.show(changedLists.get(index), changedLists.get(0), row -> {
-            changedLists.set(index, row);
-            saveChanges(changedLists);
-        });
+        EditRowForm.show(
+                index != -1 ? changedLists.get(index) : null,
+                changedLists.get(0),
+                row -> {
+                    if (index != -1) {
+                        changedLists.set(index, row);
+                    } else {
+                        changedLists.add(row);
+                    }
+                    saveChanges(changedLists);
+                });
     }
 
     private void saveChanges(List<List<String>> lists) {
