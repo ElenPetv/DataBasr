@@ -174,6 +174,7 @@ public class DataBaseManagerController {
 
         stage.initModality(Modality.WINDOW_MODAL);
         stage.setTitle("О программе");
+
         stage.setScene(new Scene(root1));
         stage.showAndWait();
 

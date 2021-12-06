@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elen.dbmanager.AboutProgramController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #caedea;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.elen.dbmanager.AboutProgramController">
    <children>
       <Label alignment="CENTER" prefHeight="34.0" prefWidth="352.0" text="Разработала студентка 2 курса 6.04.126.010.20.1">
          <font>
@@ -37,10 +37,13 @@
             <Insets bottom="4.0" left="36.0" right="36.0" top="4.0" />
          </VBox.margin>
       </Label>
-      <Button fx:id="backToMain" mnemonicParsing="false" prefHeight="27.0" prefWidth="117.0" text="Вернуться к БД" onAction="#exitButtonOnAction">
+      <Button fx:id="backToMain" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="27.0" prefWidth="117.0" text="Вернуться к БД">
          <VBox.margin>
             <Insets bottom="16.0" left="148.0" right="148.0" top="16.0" />
          </VBox.margin>
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
       </Button>
    </children>
 </VBox>
