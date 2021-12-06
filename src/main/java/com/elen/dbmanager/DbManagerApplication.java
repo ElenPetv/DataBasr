@@ -14,20 +14,21 @@ public class DbManagerApplication extends Application {
     private Disposable titleChangesSubscription;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage mainStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(DbManagerApplication.class.getResource("main.fxml"));
         appController = fxmlLoader.getController();
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);
-        stage.setScene(scene);
-        stage.show();
+        mainStage.setScene(scene);
+        mainStage.show();
+
 
         titleChangesSubscription = DatabaseManager.getInstance()
                 .dbFile()
                 .subscribe(optionalFile -> {
                     if (optionalFile.isPresent()) {
-                        stage.setTitle("DataBase Manager - " + optionalFile.get());
+                        mainStage.setTitle("DataBase Manager - " + optionalFile.get());
                     } else {
-                        stage.setTitle("DataBase Manager");
+                        mainStage.setTitle("DataBase Manager");
                     }
                 });
     }

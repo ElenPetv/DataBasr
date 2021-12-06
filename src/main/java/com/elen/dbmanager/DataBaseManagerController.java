@@ -5,11 +5,16 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +22,8 @@ import java.util.*;
 
 public class DataBaseManagerController {
 
+    @FXML
+    public Button backToMain;
     @FXML
     private VBox emptyStatePane;
 
@@ -153,6 +160,26 @@ public class DataBaseManagerController {
                     saveChanges(changedLists);
                 });
     }
+
+    @FXML
+    public void onAboutProgram(){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("aboutProgram.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.setTitle("О программе");
+        stage.setScene(new Scene(root1));
+        stage.showAndWait();
+
+    };
+
+
 
     @FXML
     private void onAddRow() {
