@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class AboutProgramController {
     @FXML
-    private void exitButtonOnAction(ActionEvent event){
-        ((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+    private void exitButtonOnAction(ActionEvent event) {
+        ((Stage) (((Button) event.getSource()).getScene().getWindow())).close();
     }
 }

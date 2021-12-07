@@ -23,12 +23,7 @@ import java.util.*;
 public class DataBaseManagerController {
 
     @FXML
-    public Button backToMain;
-    @FXML
     private VBox emptyStatePane;
-
-    @FXML
-    private Button aboutProgram;
 
     @FXML
     private TableView<Map> mainTable;
@@ -162,25 +157,21 @@ public class DataBaseManagerController {
     }
 
     @FXML
-    public void onAboutProgram(){
+    private void onAboutProgram() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("aboutProgram.fxml"));
-        Parent root1 = null;
         try {
-            root1 = (Parent) fxmlLoader.load();
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setTitle("О программе");
+
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.setTitle("О программе");
-
-        stage.setScene(new Scene(root1));
-        stage.showAndWait();
-
-    };
-
-
+    }
 
     @FXML
     private void onAddRow() {
