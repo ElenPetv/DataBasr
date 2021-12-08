@@ -1,6 +1,7 @@
 package com.elen.dbmanager;
 
 import com.elen.dbmanager.manager.DatabaseManager;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,10 +16,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.pdfsam.rxjavafx.observables.JavaFxObservable;
+import org.pdfsam.rxjavafx.schedulers.JavaFxScheduler;
+import org.pdfsam.rxjavafx.sources.Change;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class DataBaseManagerController {
 
@@ -39,9 +45,27 @@ public class DataBaseManagerController {
     @FXML
     void initialize() {
         mainTable.setItems(tableItems);
-        dataSubscription = databaseManager.getDataStream()
-                .distinctUntilChanged()
+        dataSubscription = Observable.combineLatest(
+                        databaseManager.getDataStream().distinctUntilChanged(),
+                        JavaFxObservable.changesOf(searchField.textProperty())
+                                .map(Change::getNewVal)
+                                .map(s -> s.trim().toLowerCase())
+                                .startWithItem("")
+                                .distinctUntilChanged()
+                                .debounce(500, TimeUnit.MILLISECONDS),
+                        (data, searchString) -> {
+                            if (searchString.isEmpty() || data.isEmpty()) return data;
+
+                            var dataMatched = data.stream()
+                                    .skip(1)
+                                    .filter(row -> row.stream().anyMatch(s -> s.toLowerCase().contains(searchString)))
+                                    .collect(Collectors.toCollection(ArrayList::new));
+                            dataMatched.add(0, data.get(0));
+                            return dataMatched;
+                        })
+                .observeOn(JavaFxScheduler.platform())
                 .subscribe(this::buildTable);
+
         emptyStateSubscription = databaseManager.dbFile()
                 .map(Optional::isEmpty)
                 .subscribe(emptyStatePane::setVisible);
