@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.beryx.jlink' version '2.24.1'
 }
 
 group 'com.elen.dbmanager'
@@ -12,11 +13,11 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.7.1'
+    junitVersion = '5.8.2'
 }
 
-sourceCompatibility = '14'
-targetCompatibility = '14'
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -30,6 +31,18 @@ application {
 javafx {
     version = '14.0.2.1'
     modules = ['javafx.controls', 'javafx.fxml']
+}
+
+jlink {
+    launcher {
+        name = 'databasemanager'
+    }
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "$application.mainClassName"
+    }
 }
 
 dependencies {
