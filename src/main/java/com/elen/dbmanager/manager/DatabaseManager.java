@@ -32,8 +32,8 @@ public class DatabaseManager {
     }
 
     private void readData() {
-        File file = fileSubject.getValue().orElse(null);
-        if (file == null) return;
+        File file = fileSubject.getValue()
+                .orElseThrow(() -> new NullPointerException("Can't read before open or create new file"));
         try {
             Scanner sc = new Scanner(file).useDelimiter("(\r)?\n");
             List<List<String>> data = new ArrayList<>();
@@ -71,12 +71,11 @@ public class DatabaseManager {
     }
 
     public void deleteDocument() {
-        File file = fileSubject.getValue().orElse(null);
-        if (file != null) {
-            file.delete();
-            dataSubject.onNext(List.of());
-            fileSubject.onNext(Optional.empty());
-        }
+        File file = fileSubject.getValue()
+                .orElseThrow(() -> new NullPointerException("Cant delete before open or create new file"));
+        file.delete();
+        dataSubject.onNext(List.of());
+        fileSubject.onNext(Optional.empty());
     }
 
     public String getDocumentPath() {
@@ -85,7 +84,9 @@ public class DatabaseManager {
     }
 
     public void saveData(List<List<String>> data) throws IOException {
-        File file = fileSubject.getValue().orElse(null);
+        File file = fileSubject.getValue()
+                .orElseThrow(() -> new NullPointerException("Cant call save before open or create new file"));
+
         String stringData = data.stream()
                 .map(rows -> rows.stream().reduce((s1, s2) -> s1 + "," + s2).orElse(""))
                 .reduce((s, row) -> s + "\n" + row)

@@ -2,7 +2,7 @@
 
 ## About
 
-Program for`CSV` files management.
+Program for`CSV` files management. Project uses JavaFX as UI framework.
 
 - Create
 - Delete
