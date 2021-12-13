@@ -8,7 +8,7 @@ Program for`CSV` files management. Project uses JavaFX as UI framework.
 - Delete
 - Editing
 
-It is part of university course project and created only for educational purposes.
+It is part of university course project, so created only for educational purposes.
 
 ## Building
 
