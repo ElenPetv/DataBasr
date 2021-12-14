@@ -39,7 +39,7 @@ public class DatabaseManager {
             List<List<String>> data = new ArrayList<>();
             int targetRowSize = -1;
             while (sc.hasNext()) {
-                String[] rowElements = sc.next().split(",");
+                String[] rowElements = sc.next().split(",", -1);
                 int rowSize = rowElements.length;
                 if (targetRowSize != -1) {
                     if (rowSize > targetRowSize) {

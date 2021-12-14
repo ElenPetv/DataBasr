@@ -173,7 +173,7 @@ public class DataBaseManagerController {
                     List<List<String>> changedLists = new ArrayList<>(databaseManager.getData());
                     for (int i = 0; i < changedLists.size(); i++) {
                         List<String> row = new ArrayList<>(changedLists.get(i));
-                        row.add(i == 0 ? name : " ");
+                        row.add(i == 0 ? name : "");
                         changedLists.set(i, row);
                     }
                     saveChanges(changedLists);
