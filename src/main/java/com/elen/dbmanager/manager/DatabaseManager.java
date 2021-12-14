@@ -50,7 +50,7 @@ public class DatabaseManager {
             Matcher matcher = valuePattern.matcher(fileContent);
             while (matcher.find()) {
                 rowElements.add(decodeValue(matcher.group()));
-                if (fileContent.length() == matcher.end() || fileContent.charAt(matcher.end()) == '\n') {
+                if (fileContent.length() == matcher.end() || fileContent.charAt(matcher.end()) == '\n' || fileContent.charAt(matcher.end()) == '\r') {
 
                     int rowSize = rowElements.size();
                     if (targetRowSize != -1) {
